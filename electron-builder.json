@@ -1,0 +1,14 @@
+{
+    "appId": "pl.RessCa.1z10",
+    "files": ["dist", "dist-react"],
+    "icon": "./DesktopIcon.png",
+    "mac": {
+        "target": "dmg"
+    },
+    "linux": {
+        "target": "AppImage"
+    },
+    "win": {
+        "target": ["portable", "msi"]
+    }
+}
