@@ -1,7 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import { parsePlayers } from './parsers/parsePlayers.js';
 import { parseQuestions } from './parsers/parseQuestions.js';
-import { insertPlayers, insertQuestions } from './db/database.js';
+import { insertPlayers, insertQuestions, getPlayers, updatePlayer } from './db/database.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -26,6 +26,23 @@ app.on('ready', () => {
 });
 
 
+
+ipcMain.handle('get-players', async () => {
+  const players = await getPlayers();
+  return players;
+});
+
+
+ipcMain.handle('update-player', async (_event, player) => {
+  try{
+    await updatePlayer(player);
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+})
+
+
 ipcMain.handle('process-json-players', async (_event, jsonData) => {
   try {
     const players = parsePlayers(jsonData);
@@ -36,6 +53,7 @@ ipcMain.handle('process-json-players', async (_event, jsonData) => {
     return { success: false, error: err.message };
   }
 });
+
 
 ipcMain.handle('process-json-questions', async (_event, jsonData) => {
   try {

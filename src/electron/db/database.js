@@ -47,6 +47,13 @@ async function createTables() {
   `);
 }
 
+// get palyers
+export async function getPlayers() {
+  const db = await getDb();
+  const players = await db.all('SELECT * FROM players');
+  return players;
+}
+
 // Adding players
 export async function insertPlayers(players) {
   const db = await getDb();
@@ -56,6 +63,17 @@ export async function insertPlayers(players) {
     for (const player of players) {
       await stmt.run(player.name, player.surname, player.class);
     }
+  } finally {
+    await stmt.finalize();
+  }
+}
+
+// Updateing player
+export async function updatePlayer(player) {
+  const db = await getDb();
+  const stmt = await db.prepare("UPDATE players SET name = ?, surname = ?, class = ? WHERE id = ?");
+  try {
+    await stmt.run(player.name, player.surname, player.class, player.id);
   } finally {
     await stmt.finalize();
   }

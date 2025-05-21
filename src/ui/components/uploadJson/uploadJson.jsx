@@ -1,6 +1,6 @@
-import "./uploadJson.css";
+import "./UploadJson.css";
 
-function UploadJson({ title, sendJsonFunc }) {
+function UploadJson({ title, sendJsonFunc, onUploadSuccess  }) {
   const handleUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -9,7 +9,14 @@ function UploadJson({ title, sendJsonFunc }) {
     try {
       const json = JSON.parse(text);
       const result = await sendJsonFunc(json);
-      alert(result.success ? `${title} zaimportowane` : `Błąd importu ${title}`);
+
+      if (result.success) {
+        if (onUploadSuccess) {
+          onUploadSuccess();
+        }
+      } else {
+        alert(`Błąd importu: ${result.error}`);
+      }
     } catch {
       alert(`Błędny plik JSON dla ${title}`);
     }
