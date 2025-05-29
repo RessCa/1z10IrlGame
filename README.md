@@ -1,3 +1,5 @@
+###1z10 Irl Game
+
 
 
 ##Json file structure for importing players data and example data:
@@ -11,16 +13,32 @@
 ]
 
 
-##Json file structure for importing questions data and example data:
+##Json file structure for importing colosed ABCD questions data and example data:
 
 [
     {
         "category": "math",
         "question": "2+2",
-        "answer": "4",
+        "answer": "D",
         "answerA": "0",
         "answerB": "5",
         "answerC": "3",
         "answerD": "4"
+    }
+]
+
+
+##Json file structure for importing open questions data and example data:
+#when answerA id null app automaticly recognises
+
+[
+    {
+        "category": "math",
+        "question": "3*3",
+        "answer": "9",
+        "answerA": "",
+        "answerB": "",
+        "answerC": "",
+        "answerD": ""
     }
 ]

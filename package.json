@@ -5,6 +5,7 @@
   "type": "module",
   "main": "src/electron/main.js",
   "scripts": {
+    "dev": "vite build && electron .",
     "dev:react": "vite",
     "dev:electron": "electron .",
     "build": "vite build",

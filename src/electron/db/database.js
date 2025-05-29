@@ -47,6 +47,9 @@ async function createTables() {
   `);
 }
 
+
+// Players related functions
+
 // get palyers
 export async function getPlayers() {
   const db = await getDb();
@@ -57,7 +60,9 @@ export async function getPlayers() {
 // Adding players
 export async function insertPlayers(players) {
   const db = await getDb();
-  const stmt = await db.prepare(`INSERT INTO players (name, surname, class) VALUES (?, ?, ?)`);
+  const stmt = await db.prepare(`INSERT INTO players (
+    name, surname, class
+    ) VALUES (?, ?, ?)`);
 
   try {
     for (const player of players) {
@@ -68,7 +73,7 @@ export async function insertPlayers(players) {
   }
 }
 
-// Updateing player
+// Updating player
 export async function updatePlayer(player) {
   const db = await getDb();
   const stmt = await db.prepare("UPDATE players SET name = ?, surname = ?, class = ? WHERE id = ?");
@@ -77,6 +82,16 @@ export async function updatePlayer(player) {
   } finally {
     await stmt.finalize();
   }
+}
+
+
+// Questions related functions
+
+// Get questions
+export async function getQuestions() {
+  const db = await getDb();
+  const questions = await db.all('SELECT * FROM questions');
+  return questions;
 }
 
 // Adding questions
@@ -89,17 +104,48 @@ export async function insertQuestions(questions) {
   `);
 
   try {
-    for (const q of questions) {
+    for (const question of questions) {
       await stmt.run(
-        q.category,
-        q.question,
-        q.answer,
-        q.answerA ?? null,
-        q.answerB ?? null,
-        q.answerC ?? null,
-        q.answerD ?? null
+        question.category,
+        question.question,
+        question.answer,
+        question.answerA ?? null,
+        question.answerB ?? null,
+        question.answerC ?? null,
+        question.answerD ?? null
       );
     }
+  } finally {
+    await stmt.finalize();
+  }
+}
+
+// updating question
+export async function updateQuestion(question) {
+  const db = await getDb();
+  const stmt = await db.prepare(`
+    UPDATE questions SET
+      category = ?,
+      question = ?,
+      answer = ?,
+      answerA = ?,
+      answerB = ?,
+      answerC = ?,
+      answerD = ?
+    WHERE id = ?
+  `);
+
+  try {
+    await stmt.run(
+      question.category,
+      question.question,
+      question.answer,
+      question.answerA ?? null,
+      question.answerB ?? null,
+      question.answerC ?? null,
+      question.answerD ?? null,
+      question.id
+    );
   } finally {
     await stmt.finalize();
   }

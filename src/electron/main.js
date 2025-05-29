@@ -1,14 +1,14 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import { parsePlayers } from './parsers/parsePlayers.js';
 import { parseQuestions } from './parsers/parseQuestions.js';
-import { insertPlayers, insertQuestions, getPlayers, updatePlayer } from './db/database.js';
+import { insertPlayers, insertQuestions, getPlayers, updatePlayer, getQuestions, updateQuestion } from './db/database.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-
+//function creating window and configuring it
 app.on('ready', () => {
     const mainWindow = new BrowserWindow({
         title: '1z10',
@@ -26,7 +26,7 @@ app.on('ready', () => {
 });
 
 
-
+// Handle IPC calls for players
 ipcMain.handle('get-players', async () => {
   const players = await getPlayers();
   return players;
@@ -43,6 +43,24 @@ ipcMain.handle('update-player', async (_event, player) => {
 })
 
 
+// Handle IPC calls for questions
+ipcMain.handle('get-questions', async () => {
+  const questions = await getQuestions();
+  return questions;
+});
+
+
+ipcMain.handle('update-question', async (_event, question) => {
+  try {
+    await updateQuestion(question);
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
+
+// Handle IPC calls for importing data in JSON format
 ipcMain.handle('process-json-players', async (_event, jsonData) => {
   try {
     const players = parsePlayers(jsonData);

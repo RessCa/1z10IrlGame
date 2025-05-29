@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
+import InfoTable from "../../components/InfoTable/InfoTable";
 import UploadJson from '../../components/UploadJson/UploadJson';
 import EditModal from "../../components/EditModal/EditModal";
+import BackButton from "../../components/BackButton/BackButton";
 
 import "./PlayersPage.css";
-
-import BackButton from "../../components/BackButton/BackButton";
 
 
 function PlayersPage() {
@@ -12,9 +12,10 @@ function PlayersPage() {
     const [editingPlayer, setEditingPlayer] = useState(null);
 
     const playerFields = [
-        { key: "name", label: "Imię" },
-        { key: "surname", label: "Nazwisko" },
-        { key: "class", label: "Klasa" },
+        {key: "id", label: "ID"},
+        {key: "name", label: "Imię" },
+        {key: "surname", label: "Nazwisko" },
+        {key: "class", label: "Klasa" },
     ]
 
     const fetchPlayers = () => {
@@ -23,6 +24,7 @@ function PlayersPage() {
 
     useEffect(() => {
         fetchPlayers();
+        console.log(players);
     }, []);
 
     const handleEdit = (id) => {
@@ -40,31 +42,12 @@ function PlayersPage() {
         <>
             <BackButton />
             <div>
-                <h2>Lista graczy</h2>
-                <div className="players-table-container">
-                    <table className="players-table">
-                        <thead>
-                            <tr>
-                                <th>Imię</th>
-                                <th>Nazwisko</th>
-                                <th>Klasa</th>
-                                <th>Edycja</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {players.map((player) => (
-                                <tr key={player.id}>
-                                    <td>{player.name}</td>
-                                    <td>{player.surname}</td>
-                                    <td>{player.class}</td>
-                                    <td>
-                                        <button onClick={() => handleEdit(player.id)}>Edytuj</button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                <h2>Gracze</h2>
+                <InfoTable
+                    data={players}
+                    fields={playerFields}
+                    onEdit={handleEdit} 
+                />
 
                 <UploadJson
                     title="Importuj graczy"
@@ -72,12 +55,13 @@ function PlayersPage() {
                     onUploadSuccess={fetchPlayers}
                 />
 
-                {editingPlayer && (<EditModal
-                    title="Edytuj gracza"
-                    data={editingPlayer}
-                    fields={playerFields}
-                    onClose={() => setEditingPlayer(null)}
-                    onSave={handleSave}
+                {editingPlayer && (
+                    <EditModal
+                        title="Edytuj gracza"
+                        data={editingPlayer}
+                        fields={playerFields}
+                        onClose={() => setEditingPlayer(null)}
+                        onSave={handleSave}
                     />
                 )}
             </div>

@@ -1,13 +1,18 @@
 import { Link } from 'react-router-dom';
 
+import "./MainPage.css";
+
 
 function MainPage() {
     return (
         <>
-            <h1 style={{ textAlign: 'center', padding: '2rem', fontSize: '4rem' }}>1z10 </h1>
-                <nav style={{ textAlign: 'center', marginBottom: '1rem' }}>
+            <h1 className='game-title'>1z10 </h1>
+                <nav className='main-page-nav'>
                     <Link to="/players">
-                        <button>Lista graczy</button>
+                        <button>Gracze</button>
+                    </Link>
+                    <Link to="/questions">
+                        <button>Pytania</button>
                     </Link>
                 </nav>
         </>
