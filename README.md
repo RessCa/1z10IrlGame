@@ -1,5 +1,10 @@
 ###1z10 Irl Game
 
+##Running 
+To work on the app:
+- clone this repository
+- instal dependiencies - npm i
+- run app in dev mode - npm run dev
 
 
 ##Json file structure for importing players data and example data:
