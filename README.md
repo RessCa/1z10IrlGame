@@ -1,4 +1,4 @@
-### 1z10 Irl Game
+# 1z10 Irl Game
 
 ## Running 
 To work on the app:
@@ -6,8 +6,9 @@ To work on the app:
 - instal dependiencies - npm i
 - run app in dev mode - npm run dev
 
+## JSON file structures for importing data
 
-## Json file structure for importing players data and example data:
+- Json file structure for importing players data and example data:
 
 [
     {
@@ -18,7 +19,7 @@ To work on the app:
 ]
 
 
-## Json file structure for importing colosed ABCD questions data and example data:
+- Json file structure for importing colosed ABCD questions data and example data:
 
 [
     {
@@ -33,8 +34,8 @@ To work on the app:
 ]
 
 
-## Json file structure for importing open questions data and example data:
-# when answerA id null app automaticly recognises
+- Json file structure for importing open questions data and example data:
+(when answerA is null app automaticly recognises the question as open)
 
 [
     {
